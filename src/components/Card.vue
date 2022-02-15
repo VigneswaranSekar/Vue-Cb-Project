@@ -4,15 +4,15 @@
    <div v-for="t in tasks" :key="t.Ename" class="card">
       <h2 class="Ename">{{t.Ename}}</h2>
       <DrpButton :member="t" style="float: right" @del="del(t.Ename)"
-      @stopEditForm="editBool=false"
-      @showEditForm="editBool=true"
+      @showEdit="editform"
       />
       <h2 class="position">{{t.role}}</h2>
   </div>
-  <!-- <div class="editform" v-show="editBool">
-      <AddMember :member="tempMem"
-      />
-  </div> -->
+  <div class="editForm" v-show="editBool">
+      <EditMember :member="memToEdit"
+      @showEdit="editform"
+      @update="updateMem" />
+    </div>
  </div>
 </template>
 
@@ -20,7 +20,7 @@
 
 import DrpButton from './DrpButton.vue';
 
-import AddMember from '../forms/AddMember.vue';
+import EditMember from '../forms/EditMember.vue';
 
 export default {
   name: 'Card',
@@ -31,6 +31,8 @@ export default {
         Ename: 'Hello',
         role: 'Analyst',
       },
+      memToEdit: {
+      },
     };
   },
   props: {
@@ -38,15 +40,19 @@ export default {
   },
   components: {
     DrpButton,
-    // AddMember,
+    EditMember,
   },
   methods: {
     del(Name) {
       this.$emit('delete', Name);
       return true;
     },
+    editform(editMem) {
+      this.editBool = true;
+      this.memToEdit = editMem;
+    },
     stopEditForm(bool) {
-      this.$emit('stopEditForm', false);
+      this.editBool = false;
       return false;
     },
     showEditForm() {
@@ -56,8 +62,11 @@ export default {
     save(member) {
       this.$emit('save', member);
     },
+    updateMem(mem) {
+      this.$emit('update-task', mem);
+    },
   },
-  emits: ['del', 'stopEditForm'],
+  emits: ['del', 'stopEditForm', 'update-task'],
 };
 </script>
 

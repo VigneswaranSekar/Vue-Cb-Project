@@ -12,34 +12,36 @@
       <input type="radio" id="Tech Support" name="Tech Support" value="Tech Support" v-model="pos">
       <label for="Tech Support">Tech Support</label><br>
       </form>
-      <button class="btn" @click="save()">Save</button>
+      <button class="btn" @click="update()">Update</button>
   </div>
 </template>
 
 <script>
 export default {
-  name: 'AddMember',
+  name: 'EditMember',
   props: {
     member: Object,
   },
   data() {
     return {
-      Name: '',
-      pos: '',
+      Name: this.member.Ename,
+      pos: this.member.pos,
     };
   },
   methods: {
-    save() {
+    update() {
       // this.showEdit = !this.showEdit;
       const newMember = {
         Ename: this.Name,
         role: this.pos,
       };
-      console.log(typeof newMember);
-      this.$emit('save', newMember);
+      const newAndOldMem = [];
+      newAndOldMem.push(this.member, newMember);
+      this.$emit('update', newAndOldMem);
+      console.log(newAndOldMem);
     },
   },
-  emits: ['save'],
+  emits: ['update'],
 };
 </script>
 
@@ -47,19 +49,13 @@ export default {
 .btn {
   background-color: rgba(103,36,234,255);
   color: white;
-  padding: 10px 5px 5px 5px;
-  margin: 10px 10px 10px 10px;
+  padding: 10px;
   font-size: 16px;
   border: none;
   float: right;
   margin-right: 10px;
   border-radius: 5px;
   cursor: pointer;
-  position: fixed;
-}
-.form{
-  position: fixed;
-  font-size: 20px;
 }
 .nameImp {
   font: bold;

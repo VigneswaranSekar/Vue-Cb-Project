@@ -1,25 +1,27 @@
 <template>
+<div class="drp">
   <div class="dropdown">
     <button class="dropbtn">:</button>
     <div class="dropdown-content">
-      <button class="but" @click="showEditForm()">Edit details</button>
+      <button class="but" @click="showEditForm(member)">Edit details</button>
       <button class="but" @click="deleteMem(member.Ename)">Delete member</button>
     </div>
+  </div>
 </div>
 </template>
 
 <script>
 
+import EditMember from '../forms/EditMember.vue';
+
 export default {
   name: 'DrpButton',
+  components: {
+  },
   props: {
     member: Object,
   },
   methods: {
-    toggleEdit() {
-      this.showEdit = true;
-      return true;
-    },
     deleteMem(Name) {
       console.log(Name);
       this.$emit('del', Name);
@@ -29,10 +31,12 @@ export default {
       this.showEdit = false;
       return bool;
     },
-    showEditForm(bool) {
-      this.showEdit = true;
-      this.$emit('showEditForm', this.member);
-      return bool;
+    showEditForm(me) {
+      this.$emit('showEdit', me);
+    },
+    updateMem(editmem) {
+      this.showEdit = false;
+      this.$emit('update-mem', editmem);
     },
   },
   data() {
@@ -40,7 +44,7 @@ export default {
       showEdit: false,
     };
   },
-  emits: ['stopEditForm'],
+  emits: ['stopEditForm', 'update-mem'],
 };
 </script>
 
