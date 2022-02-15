@@ -1,11 +1,13 @@
 <template>
   <div class="app">
-  <h1 v-show="dataBool" class="title">
+  <h1  class="title">
     {{title}} ({{team.length}})
-  <button @click="openform()" class="button">+ Invite members</button>
+  <button @click="toggleOn()" class="button">+ Invite members</button>
   </h1>
   <br>
-    <Card :tasks="team" @delete="del"/>
+    <Card :tasks="team" @delete="del" @save="save(newMember)" /> <br>
+    <AddMember v-show="showAdd" :member="def"
+    @save="save(newMember)" />
   </div>
 </template>
 
@@ -14,42 +16,45 @@ import { defineComponent } from '@vue/composition-api';
 
 import Home from './views/Home.vue';
 
-import About from './views/About.vue';
-
 import Card from './components/Card.vue';
+
+import AddMember from './forms/AddMember.vue';
 
 export default defineComponent({
   name: 'app',
   data() {
     return {
-      dataBool: true,
-      team: [],
       title: 'Task Manager',
+      team: [],
+      def: {
+        Ename: 'Enter name',
+        role: 'Enter role',
+      },
+      showAdd: false,
     };
   },
-  methods: {
-    toggle() {
-      this.dataBool = (!this.dataBool);
-      return this.dataBool;
+  computed: {
+    dataBool() {
+      return this.showAdd;
     },
-    openform() {
-      console.log('open the form');
+  },
+  methods: {
+    toggleOn() {
+      this.showAdd = true;
+      return this.showAdd;
     },
     del(Name) {
-      let i = 0;
-      for (i = 0; i < this.team.length; i += 1) {
-        if (this.team[i].Ename === Name) {
-          console.log('Inside if block');
-          console.log(i);
-          this.team = this.team.splice(i, 1);
-        }
-      }
+      this.team = this.team.filter((t) => t.Ename !== Name);
+    },
+    save(newMember) {
+      this.team = this.team.push(newMember);
+      console.log(this.team);
     },
   },
   components: {
     Home,
-    About,
     Card,
+    AddMember,
   },
   created() {
     this.team = [
@@ -78,7 +83,7 @@ export default defineComponent({
   cursor: pointer;
 }
 .button {
-  transition-duration: 0.7s;
+  transition-duration: 0.3s;
   color: #dfccf9;
   background-color: rgba(103,36,234,255);
   font-size: 100%;
