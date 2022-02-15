@@ -5,9 +5,10 @@
   <button @click="toggleOn()" class="button">+ Invite members</button>
   </h1>
   <br>
-    <Card :tasks="team" @delete="del" @save="save(newMember)" /> <br>
+    <Card :tasks="team" @delete="del" @update-task="update"
+    /> <br>
     <AddMember v-show="showAdd" :member="def"
-    @save="save(newMember)" />
+    @save="savemem" />
   </div>
 </template>
 
@@ -33,11 +34,6 @@ export default defineComponent({
       showAdd: false,
     };
   },
-  computed: {
-    dataBool() {
-      return this.showAdd;
-    },
-  },
   methods: {
     toggleOn() {
       this.showAdd = true;
@@ -46,9 +42,19 @@ export default defineComponent({
     del(Name) {
       this.team = this.team.filter((t) => t.Ename !== Name);
     },
-    save(newMember) {
-      this.team = this.team.push(newMember);
+    savemem(newMember) {
+      console.log(`${newMember} save from APP`);
+      this.team = [...this.team, newMember];
+      this.showAdd = false;
       console.log(this.team);
+    },
+    update(mem) {
+      this.team.forEach(function (item, index) {
+        if (item.Ename === mem[0].Ename) {
+          this.team[index].Ename = mem[1].Ename;
+          this.team[index].pos = mem[1].pos;
+        }
+      });
     },
   },
   components: {
