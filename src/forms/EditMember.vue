@@ -37,8 +37,8 @@ export default {
       };
       const newAndOldMem = [];
       newAndOldMem.push(this.member, newMember);
-      this.$emit('update', newAndOldMem);
       console.log(newAndOldMem);
+      this.$emit('update', newAndOldMem);
     },
   },
   emits: ['update'],

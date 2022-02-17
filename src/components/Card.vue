@@ -10,7 +10,6 @@
   </div>
   <div class="editForm" v-show="editBool">
       <EditMember :member="memToEdit"
-      @showEdit="editform"
       @update="updateMem" />
     </div>
  </div>
@@ -63,6 +62,7 @@ export default {
       this.$emit('save', member);
     },
     updateMem(mem) {
+      this.editBool = false;
       this.$emit('update-task', mem);
     },
   },
