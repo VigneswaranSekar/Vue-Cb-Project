@@ -36,6 +36,8 @@ export default {
         role: this.pos,
       };
       console.log(typeof newMember);
+      this.Name = '';
+      this.pos = '';
       this.$emit('save', newMember);
     },
   },

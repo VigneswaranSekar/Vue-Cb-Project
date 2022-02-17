@@ -23,7 +23,6 @@ export default {
   },
   methods: {
     deleteMem(Name) {
-      console.log(Name);
       this.$emit('del', Name);
       return Name;
     },
