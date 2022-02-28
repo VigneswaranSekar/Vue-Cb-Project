@@ -5,7 +5,7 @@
   <button @click="toggleOn()" class="button">+ Invite members</button>
   </h1>
   <br>
-    <Card :tasks="team" @delete="del" @update-task="update"
+    <Card :tasks="team" @delete="del"
     /> <br>
     <AddMember v-show="showAdd" :member="def"
     @save="savemem" />

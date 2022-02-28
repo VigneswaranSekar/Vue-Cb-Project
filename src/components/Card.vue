@@ -63,7 +63,15 @@ export default {
     },
     updateMem(mem) {
       this.editBool = false;
-      this.$emit('update-task', mem);
+      console.log(mem);
+      this.tasks.forEach(function (item, index) {
+        if (item.Ename === mem[0].Ename) {
+          item.Ename = mem[1].Ename;
+          item.pos = mem[1].pos;
+          index = 1;
+        }
+      });
+      // this.$emit('update-task', mem);
     },
   },
   emits: ['del', 'stopEditForm', 'update-task'],

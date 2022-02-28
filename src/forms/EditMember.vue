@@ -41,7 +41,6 @@ export default {
       this.$emit('update', newAndOldMem);
     },
   },
-  emits: ['update'],
 };
 </script>
 
